@@ -56,7 +56,7 @@
 如果上述条件同时成立，则$Y\sim N_{m\times q}(\alpha B^T\mu, \beta B^T\Sigma B)$.
 
 \paragraph{Theorem}
-设$X\sim N_{n\times p}(M, I_n\otimes\Sigma)$，$C_1, \cdots , C_k$是对称矩阵. 如果$ C_rC_s = 0$对于一切$r\neq x$均成立，则$X^TC_1X, \cdots , X^TC_kX$相互独立.
+设$X\sim N_{n\times p}(M, I_n\otimes\Sigma)$，$C_1, \cdots , C_k$是对称矩阵. 如果$ C_rC_s = 0$对于一切$r\neq s$均成立，则$X^TC_1X, \cdots , X^TC_kX$相互独立.
 
 \paragraph{Theorem}
 设$X \sim N_{n\times p}(M, I_n\otimes\Sigma)$，$A, B$均为$n$阶对称幂等矩阵，则$X^TAX$与$X^TBX$相互独立$\Leftrightarrow AB = O$. 
@@ -142,6 +142,22 @@ T^2 =n(\bar{X}-\mu)S^{-1}(\bar{X}-\mu)^T \sim T^2(p, n-1)
 
 \begin{displaymath}
 \frac{n - p + 1}{np}T^2 \sim F_{p, n - p + 1}
-\end{displaymath} 
+\end{displaymath}
+
+\section{Linear Regression}
+\paragraph{Theorem}
+设$Y = Z\beta + \varepsilon$，其中$\mathbb{E}\varepsilon = 0, \textrm{Cov}(\varepsilon) = \sigma^2 I$，则对任意$c$，估计值$c^T\hat{\beta}$是$c^T\beta$所有线性无偏估计中方差最小的. 
+
+\paragraph{Proof} 
+设$a^TY$是$c^T\beta$的无偏估计，则有$\mathbb{E}(a^TY) = a^TZ\beta = c^T\beta$，从而$(a^TZ - c^T)\beta=0$对一切$\beta$均成立，因此令$\beta = Z^Ta - c$，我们得到$a^TZ = c^T$. 再注意到$c^T\hat{\beta} = c^T(Z^TZ)^{-1}Z^TY = (a^*)^TY$，其中$a^* = Z(Z^TZ)^{-1}c$，注意到$(a - a^*)^Ta^* = (a^TZ - (a^*)^TZ)(Z^TZ)^{-1}c = (c^T - c^T)(Z^TZ)^{-1}c =0$，于是有
+
+\begin{displaymath}
+\begin{aligned}
+\textrm{Var}(a^TY) &= \textrm{Var}(a^T\varepsilon) = \sigma^2 a^Ta \\
+&= \sigma (a - a^* + a^*)^T(a - a^* + a^*) \\
+&= \sigma [(a - a^*)^T(a - a^*) + (a^*)^Ta^*] \\
+&\geq  \sigma^2 (a^*)^Ta^* =  \textrm{Var}((a^*)^TY)
+\end{aligned}
+\end{displaymath}
 
 \end{document}
