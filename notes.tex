@@ -1,0 +1,147 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subfigure}
+\usepackage{geometry}
+\pagestyle{plain}
+\usepackage[UTF8]{ctex}
+\usepackage{CJK}
+\usepackage{listings} 
+\geometry{left=2cm, right=2cm, top=2.5cm, bottom=2.5cm}
+
+\begin{document}
+\title{Applied Multivariate Statistical Analysis: A Note}
+\maketitle
+
+\section{Linear Algebra}
+\paragraph{Theorem} 
+给定正定矩阵$B_{p\times p }$以及标量$b > 0$，我们有
+
+\begin{displaymath}
+\frac{1}{|\Sigma|^b}e^{-\textrm{tr}(\Sigma^{-1}B) / 2} \leq \frac{1}{|B|^b}(2b)^{pb}e^{-pb}
+\end{displaymath}
+
+等号成立当且仅当$\Sigma = \frac{1}{2b}B$. 
+
+\paragraph{Theorem}
+设$A, B$均为$J$阶方阵，记其特征值从大到小排列为$\{\lambda_j(A)\}_{j=1}^J, \{\lambda_j(B)\}_{j=1}^J$，则有
+
+\begin{displaymath}
+\sum_{j=1}^J [\lambda_j(A)−\lambda_j(B)]^2 \leq \textrm{tr}[(A−B)(A−B)^T]
+\end{displaymath}
+
+\paragraph{Theorem}
+设$A$为$J$阶方阵，记其特征值从大到小排列为$\{\lambda_j(A)\}_{j=1}^J$，$U$为$J\times K$阶列正交矩阵，则有
+
+\begin{displaymath}
+\lambda_j(U^TAU) \leq \lambda_j(A)
+\end{displaymath}
+
+等号成立当且仅当$U$的列向量是$A$的前$K$个特征值. 
+
+
+\section{Multivariate Normal Distribution}
+\paragraph{Theorem} 
+设$X = \begin{pmatrix} X_1\\ X_2 \end{pmatrix}$服从多元正态分布$N_P(\mu, \Sigma)$，其中$\mu = \begin{pmatrix} \mu_1 \\ \mu_2 \end{pmatrix}, \Sigma = \begin{pmatrix} \Sigma_{11} & \Sigma_{12}\\ \Sigma_{21} & \Sigma_{22} \end{pmatrix}$. 则在给定$X_2 = x_2$的条件下，$X_1$服从均值为$\mu_1 + \Sigma_{12}\Sigma_{22}^{-1}(x_2 - \mu_2)$，协方差为$\Sigma_{11} - \Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21}$的多元正态分布. 
+
+\paragraph{Theorem}
+设$X\sim N_{n\times p}(M, I_n\otimes\Sigma), A\in\mathbb{R}^{m\times n}, B\in\mathbb{R}^{p\times q}$，则$Y$是正态矩阵当且仅当下列条件同时成立：
+
+(i) 存在常数$\alpha$使得$A1_n = \alpha 1_n$ 或者 $B^T\mu = 0$；
+
+(ii)存在常数$\beta$使得$AA^T = \beta I_n$或者$B^T\Sigma B = 0$. 
+
+如果上述条件同时成立，则$Y\sim N_{m\times q}(\alpha B^T\mu, \beta B^T\Sigma B)$.
+
+\paragraph{Theorem}
+设$X\sim N_{n\times p}(M, I_n\otimes\Sigma)$，$C_1, \cdots , C_k$是对称矩阵. 如果$ C_rC_s = 0$对于一切$r\neq x$均成立，则$X^TC_1X, \cdots , X^TC_kX$相互独立.
+
+\paragraph{Theorem}
+设$X \sim N_{n\times p}(M, I_n\otimes\Sigma)$，$A, B$均为$n$阶对称幂等矩阵，则$X^TAX$与$X^TBX$相互独立$\Leftrightarrow AB = O$. 
+
+\section{Cochran's Theorem}
+\paragraph{Theorem} 
+设$x$是一个$n$维向量，且存在一列半正定矩阵$A_j, j=1,2,\cdots, k$使得$x^Tx = \sum_{j=1}^kx^TA_jx$. 记$Q_j  = x^TA_jx, r_j = \textrm{rank}(A_j), S_j = \sum_{i = 1}^jr_i, j=1,2,\cdots, k$，如果$\sum_{j=1}^kr_j=n$，则存在正交矩阵$C$和向量$y$使得$x = Cy$，且有$Q_j = \sum_{i = S_{j-1} + 1}^{S_j}y_i^2$.
+\paragraph{Proof}
+以$n=2$为例，设$x^Tx = x^TA_1x  + x^TA_2x$，并设$A_1 = C\Lambda_1C^T$，其中$C$是正交矩阵，$\Lambda_1$是对角矩阵.不妨设$\Lambda_1$的前$r_1$个对角元不为0，记$x = Cy$，则有
+
+\begin{displaymath}
+y^TC^TA_1Cy  + y^TC^TA_2Cy =  y^T\Lambda_1 y  + y^TC^TA_2Cy = \sum_{j=1}^{r_1}\lambda_jy_j^2 + y^TC^TA_2Cy
+\end{displaymath}
+
+从而
+
+\begin{displaymath}
+y^TC^TA_2Cy = x^Tx - \sum_{j=1}^{r_1}\lambda_jy_j^2 = y^Ty - \sum_{j=1}^{r_1}\lambda_jy_j^2 = \sum_{j=1}^{r_1}(1 - \lambda_j)y_j^2 + \sum_{j=r_1 + 1}^{n}y_j^2
+\end{displaymath}
+
+等号左边是秩为$r_2$的二次型，为了使等号两边的秩相等，必须有$1 - \lambda_j=0, j=1,2,\cdots, r_1$，从而进一步得到$C^TA_2C = I$. 
+
+\paragraph{Theorem}
+设$X \sim N_n(0, \sigma^2I)$，且存在一列半正定矩阵$A_j, j=1,2,\cdots, k$使得$X^TX = \sum_{j=1}^kX^TA_jX$.
+记$Q_j  = X^TA_jX, r_j = \textrm{rank}(A_j), S_j = \sum_{i = 1}^jr_i, j=1,2,\cdots, k$，如果$\sum_{j=1}^kr_j=n$，则
+
+i. $Q_1, Q_2, \cdots, Q_k$相互独立，
+
+ii. $Q_j \sim \sigma^2\chi^2_{r_j}, j=1,2,\cdots, k$，
+
+
+\section{Distributions}
+\subsection{Wishart Distribution}
+\paragraph{Definition}
+设$X_{(i)}\sim N_p(0, \Sigma), i=1,2,\cdots, n$相互独立，则称随机矩阵
+
+\begin{displaymath}
+W = \sum_{i=1}^n X_{(i)}X_{(i)}^T
+\end{displaymath}
+
+服从Wishart分布，记为$W\sim W_p(n, \Sigma)$. 
+
+\paragraph{Theorem}
+设$X_{(i)}\sim N_p(0, \Sigma), i=1,2,\cdots, n$相互独立，则
+
+\begin{displaymath}
+A =\sum_{i=1}^n (X_{(i)}-\bar{X})(X_{(i)} - \bar{X})^T\sim W_p(n-1, p)
+\end{displaymath}
+
+\paragraph{Theorem}
+设$W_i\sim W_p(n_i, \Sigma), i=1,2,\cdots, k$相互独立，则
+
+\begin{displaymath}
+\sum_{i=1}^k W_i \sim W_p(\sum_{i=1}^kn_i, \Sigma)
+\end{displaymath}
+
+\paragraph{Theorem}
+设$W\sim W_p(n, \Sigma)$，$C$是$m\times p$矩阵，则
+
+\begin{displaymath}
+CWC^T \sim W_m(n, C\Sigma C^T)
+\end{displaymath}
+
+\subsection{Hotelling's $T^2$ Distribution}
+\paragraph{Definition} 
+设$X\sim N_p(0, \Sigma), W\sim W_p(n, \Sigma)$，且$X$与$W$相互独立，则称统计量
+
+\begin{displaymath}
+T^2 = X^T(\frac{W}{n})^{-1}X
+\end{displaymath}
+
+服从$n$个自由度的$T^2$分布，记为$T^2 \sim T^2(p, n)$.
+
+\paragraph{Theorem}
+设$X_{(i)}\sim N_p(\mu, \Sigma), i=1,2,\cdots, n$相互独立，记$\bar{X} = \frac{\sum_{i=1}^nX_{(i)}}{n}, S = \frac{\sum_{i=1}^n (X_{(i)} - \bar{X})(X_{(i)} - \bar{X})^T}{n - 1}$，则
+
+\begin{displaymath}
+T^2 =n(\bar{X}-\mu)S^{-1}(\bar{X}-\mu)^T \sim T^2(p, n-1)
+\end{displaymath}
+
+\paragraph{Theorem}
+设$T^2 \sim T^2(p. n)$，则
+
+\begin{displaymath}
+\frac{n - p + 1}{np}T^2 \sim F_{p, n - p + 1}
+\end{displaymath} 
+
+\end{document}
